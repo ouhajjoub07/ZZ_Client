@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Connexion</title>
+</head>
+<body>
+    <h2>Connexion</h2>
+    <form id="loginForm">
+        <label>Nom d'utilisateur:</label><br>
+        <input type="text" name="username" required><br>
+        <label>Mot de passe:</label><br>
+        <input type="password" name="password" required><br><br>
+        <button type="submit">Se connecter</button>
+    </form>
+
+    <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const data = {
+            username: this.username.value,
+            password: this.password.value
+        };
+        fetch('/api/users/login/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                alert('Connexion réussie !');
+                window.location.href = '/home/';
+            } else {
+                alert('Erreur: ' + data.error);
+            }
+        });
+    });
+    </script>
+</body>
+</html>
